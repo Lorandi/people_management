@@ -8,7 +8,7 @@ import lombok.Getter;
 @JsonSerialize(using = EnumSerializer.class)
 @AllArgsConstructor
 @Getter
-public enum AdressTypeEnum implements EnumDescription{
+public enum AddressTypeEnum implements EnumDescription{
 
     HOME("Casa"),
     WORK("Trabalho");

@@ -1,5 +1,6 @@
 package com.lorandi.peoplemanagement.entity;
 
+import com.lorandi.peoplemanagement.enums.AddressTypeEnum;
 import lombok.*;
 
 import javax.persistence.Entity;
@@ -26,5 +27,6 @@ public class Address {
     private String zipcode;
     private String number;
     private String city;
+    private AddressTypeEnum addressType;
     private Boolean mainAddress;
 }

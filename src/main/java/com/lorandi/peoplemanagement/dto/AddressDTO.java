@@ -1,5 +1,6 @@
 package com.lorandi.peoplemanagement.dto;
 
+import com.lorandi.peoplemanagement.enums.AddressTypeEnum;
 import lombok.Builder;
 import lombok.Value;
 import lombok.With;
@@ -16,5 +17,6 @@ public class AddressDTO {
     String zipcode;
     String number;
     String city;
+    AddressTypeEnum addressType;
     Boolean mainAddress;
 }
