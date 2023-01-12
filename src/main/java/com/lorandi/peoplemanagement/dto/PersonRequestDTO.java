@@ -15,5 +15,5 @@ import java.util.List;
 public class PersonRequestDTO {
     String name;
     LocalDate birthdate;
-    List<AddressDTO> zipcode;
+    List<AddressDTO> address;
 }

@@ -16,5 +16,5 @@ public class PersonUpdateDTO {
     Long id;
     String name;
     LocalDate birthdate;
-    List<AddressDTO> zipcode;
+    List<AddressDTO> address;
 }
