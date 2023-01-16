@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class AddressRequestDTO {
 
-    @NotNull
-    Long personId;
     String street;
     String zipcode;
     String number;

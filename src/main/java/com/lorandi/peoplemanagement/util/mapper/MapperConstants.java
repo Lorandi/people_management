@@ -9,5 +9,4 @@ public class MapperConstants {
     }
     public static final AddressMapper addressMapper = Mappers.getMapper(AddressMapper.class);
     public static final PersonMapper personMapper = Mappers.getMapper(PersonMapper.class);
-
 }

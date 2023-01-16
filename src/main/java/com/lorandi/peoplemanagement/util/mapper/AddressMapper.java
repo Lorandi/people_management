@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface AddressMapper {
 
-    @Mapping(target = "id", source = "true")
     Address buildAddress(AddressRequestDTO addressDTO);
 
     AddressDTO buildAddressDTO(Address address);

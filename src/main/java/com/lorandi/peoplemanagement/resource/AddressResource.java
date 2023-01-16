@@ -42,13 +42,13 @@ public class AddressResource {
         return service.findDTOById(id);
     }
 
-    @PostMapping
-    @ResponseStatus(CREATED)
-    @Operation(summary = "Create address",
-            responses = {@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = AddressRequestDTO.class)))})
-    public AddressDTO create(@RequestBody AddressRequestDTO addressRequest) {
-        return service.create(addressRequest);
-    }
+//    @PostMapping
+//    @ResponseStatus(CREATED)
+//    @Operation(summary = "Create address",
+//            responses = {@ApiResponse(responseCode = "201", content = @Content(schema = @Schema(implementation = AddressRequestDTO.class)))})
+//    public AddressDTO create(@RequestBody AddressRequestDTO addressRequest, @RequestBody Long personId) {
+//        return service.create(addressRequest, personId);
+//    }
 
     @PutMapping
     @Operation(summary = "Update address by id",

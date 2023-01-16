@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
@@ -28,37 +29,29 @@ public class PersonService {
     private final AddressService addressService;
     private final MessageHelper messageHelper;
 
-    public PersonDTO create(final PersonRequestDTO requestDTO) {
-        var person = personMapper.buildPersonDTO(repository.save(personMapper.buildPerson(requestDTO)));
+    public PersonDTO create(final PersonRequestDTO request) {
+        var person = personMapper.buildPersonDTO(repository.save(personMapper.buildPerson(request)));
 
         ArrayList<AddressDTO> addresses = new ArrayList<>();
 
-        requestDTO.getAddress().forEach(address -> {
+        request.getAddress().forEach(address -> {
             addresses.add(addressService.create(AddressRequestDTO.builder()
-                    .personId(person.getId())
                     .street(address.getStreet())
                     .zipcode(address.getZipcode())
                     .number(address.getNumber())
                     .city(address.getCity())
                     .addressType(address.getAddressType())
                     .mainAddress(address.getMainAddress())
-                    .build()));
+                    .build(), person.getId()));
 
         });
-        return person.withAddress(addresses);
-
-//        return PersonDTO.builder()
-//                .id(person.getId())
-//                .name(person.getName())
-//                .birthdate(person.getBirthdate())
-//                .address(addresses)
-//                .build();
+        return this.findDTObyId(person.getId());
     }
 
+    @Transactional
     public PersonDTO update(final PersonUpdateDTO updateDTO) {
         var person = this.findById(updateDTO.getId());
-        var updatedPerson = personMapper.buildPersonDTO(repository.save(person
-                .withName(updateDTO.getName())
+        personMapper.buildPersonDTO(repository.save(person.withName(updateDTO.getName())
                 .withBirthdate(updateDTO.getBirthdate())));
 
         addressService.deleteAllByPersonId(updateDTO.getId());
@@ -67,26 +60,17 @@ public class PersonService {
 
         updateDTO.getAddress().forEach(address -> {
             addresses.add(addressService.create(AddressRequestDTO.builder()
-                    .personId(person.getId())
                     .street(address.getStreet())
                     .zipcode(address.getZipcode())
                     .number(address.getNumber())
                     .city(address.getCity())
                     .addressType(address.getAddressType())
                     .mainAddress(address.getMainAddress())
-                    .build()));
-
+                    .build(), person.getId()));
         });
 
-        return updatedPerson.withAddress(addresses);
-//        return PersonDTO.builder()
-//                .id(updatedPerson.getId())
-//                .name(updatedPerson.getName())
-//                .birthdate(updatedPerson.getBirthdate())
-//                .address(addresses)
-//                .build();
+        return this.findDTObyId(person.getId());
     }
-
 
     public Person findById(final Long id) {
         return repository.findById(id).orElseThrow(() -> {
@@ -99,8 +83,9 @@ public class PersonService {
         var person = findById(id);
         var addresses = addressService.findAllByPersonId(id);
         ArrayList<AddressDTO> addressesDTO = new ArrayList<>();
-        addresses.forEach(address ->{
+        addresses.forEach(address -> {
             addressesDTO.add(AddressDTO.builder()
+                    .id(address.getId())
                     .personId(person.getId())
                     .street(address.getStreet())
                     .zipcode(address.getZipcode())
@@ -123,9 +108,10 @@ public class PersonService {
                 .map(person -> {
                     var addresses = addressService.findAllByPersonId(person.getId());
                     ArrayList<AddressDTO> addressesDTO = new ArrayList<>();
-                    addresses.forEach(address ->{
+                    addresses.forEach(address -> {
                         addressesDTO.add(AddressDTO.builder()
-                                .personId(person.getId())
+                                .id(address.getId())
+                                .personId(address.getPersonId())
                                 .street(address.getStreet())
                                 .zipcode(address.getZipcode())
                                 .number(address.getNumber())

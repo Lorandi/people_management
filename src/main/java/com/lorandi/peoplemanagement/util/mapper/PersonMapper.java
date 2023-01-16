@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 @Mapper
 public interface PersonMapper {
 
-    @Mapping(target = "id", source = "true")
     Person buildPerson(PersonRequestDTO personDTO);
 
     PersonDTO buildPersonDTO(Person person);

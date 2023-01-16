@@ -28,10 +28,11 @@ import static org.springframework.http.HttpStatus.NOT_FOUND;
 public class AddressService {
 
     private final AddressRepository repository;
-        private final MessageHelper messageHelper;
+    private final MessageHelper messageHelper;
 
-    public AddressDTO create(final AddressRequestDTO requestDTO) {
-        var address = addressMapper.buildAddressDTO(repository.save(addressMapper.buildAddress(requestDTO)));
+    public AddressDTO create(final AddressRequestDTO requestDTO, Long personId) {
+        var address = addressMapper.buildAddressDTO(repository.save(addressMapper.buildAddress(requestDTO)
+                .withPersonId(personId)));
 
         setOtherMainAddressToFalse(address);
 
