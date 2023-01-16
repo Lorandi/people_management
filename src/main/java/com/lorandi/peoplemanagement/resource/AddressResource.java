@@ -29,7 +29,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/address")
 @RequiredArgsConstructor
-@Tag(name = "Address")
 public class AddressResource {
 
     private final AddressService service;

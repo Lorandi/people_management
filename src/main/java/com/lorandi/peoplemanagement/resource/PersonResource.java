@@ -26,7 +26,6 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/person")
 @RequiredArgsConstructor
-@Tag(name = "person")
 public class PersonResource {
 
     private final PersonService service;
